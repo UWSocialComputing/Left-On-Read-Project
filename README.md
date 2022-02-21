@@ -28,3 +28,32 @@ On Google Chrome, go to the URL [chrome://extensions/](chrome://extensions/) to 
 ## Setting up Django
 
 Make sure you've installed pip and pipenv.
+Initial backend setup:
+```
+# navigate to repo_root/backend
+cd backend
+
+# create a virtual environment
+python3 -m venv .venv
+
+# activate the virtual environment
+source .venv/bin/activate
+
+# install packages (could take a while, only need to do this once)
+pip3 install -r requirements.txt
+
+# Some django DB stuff
+python3 manage.py makemigrations
+python3 manage.py migrate
+
+# create a super user for editing and inspecting the db
+python3 manage.py createsuperuser
+
+# run server
+python manage.py runserver
+```
+
+Current APIs:
+GET `/users`
+GET `/room`
+PUT `/status/<user_name>`
