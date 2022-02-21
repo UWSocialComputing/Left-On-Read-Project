@@ -54,6 +54,10 @@ python manage.py runserver
 ```
 
 Current APIs:
+
 GET `/users`
+
 GET `/room`
+
 PUT `/status/<user_name>`
+
