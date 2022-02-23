@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
-import {DatePicker, Button} from 'antd';
+import {Layout} from 'antd';
+import RoomIcon from './RoomIcon';
 
 interface AppState {
     // TODO
@@ -19,10 +20,7 @@ class App extends Component<{}, AppState> {
     render() {
         return (
             <div>
-                <DatePicker />
-                <Button type="primary" style={{ marginLeft: 8 }}>
-                Primary Button
-                </Button>
+                <RoomIcon/>
             </div>
         );
     }
