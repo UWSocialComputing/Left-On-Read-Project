@@ -22,9 +22,9 @@ class App extends Component<{}, AppState> {
     render() {
         return (
             <div>
-                <RoomIcon/>
-                <RoomIcon/>
-                <RoomIcon/>
+                <RoomIcon name="John Doe"/>
+                <RoomIcon name="Per Sonne"/>
+                <RoomIcon name="Ash Ketchum"/>
             </div>
         );
     }
