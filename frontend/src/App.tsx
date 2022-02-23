@@ -17,9 +17,13 @@ class App extends Component<{}, AppState> {
         };
     }
 
+    // TODO for later: generate x number of RoomIcon components
+    // based on number of people in room atm. hard-coded for now
     render() {
         return (
             <div>
+                <RoomIcon/>
+                <RoomIcon/>
                 <RoomIcon/>
             </div>
         );

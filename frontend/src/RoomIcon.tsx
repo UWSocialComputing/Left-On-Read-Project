@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Avatar} from 'antd';
+import {Avatar, Tooltip, Card} from 'antd';
 import { UserOutlined } from '@ant-design/icons';
 
 /**
@@ -10,8 +10,9 @@ class RoomIcon extends Component<{}, {}> {
     render() {
         return (
             <div>
-                <Avatar size={64} icon={<UserOutlined />} />
-                <Avatar size={64} icon={<UserOutlined />} />
+                <Tooltip placement="right" title={<Card/>}>
+                    <Avatar size={64} icon={<UserOutlined />} />
+                </Tooltip>
             </div>
         );  
     }
