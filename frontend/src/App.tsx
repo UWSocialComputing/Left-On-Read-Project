@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import RoomIcon from './RoomIcon';
+import {DatePicker, Button} from 'antd';
 
 interface AppState {
     // TODO
@@ -19,8 +19,10 @@ class App extends Component<{}, AppState> {
     render() {
         return (
             <div>
-                <p id="app-title">Chrome Extension thing</p>
-                
+                <DatePicker />
+                <Button type="primary" style={{ marginLeft: 8 }}>
+                Primary Button
+                </Button>
             </div>
         );
     }
