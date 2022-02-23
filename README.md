@@ -13,17 +13,29 @@ Installing React: [React.JS setup tutorial](https://reactjs.org/tutorial/tutoria
 
 To get the extension up on your local device, clone this repository.
 
-In the `left-on-read` directory, be sure to run
+In the `frontend` directory, be sure to first run
 ```
-npm start
+npm install
 ```
-to get the application up and running. In a separate terminal, go to the same `left-on-read` directory and run
+to install everything and also get the required dependencies this project uses onto your local device.
+
+After, run the following:
 ```
 npm run build
 ```
-to build the Chrome extension.
+to build the project which will be needed for getting the project up as a Chrome extension.
 
-On Google Chrome, go to the URL [chrome://extensions/](chrome://extensions/) to access Chrome Extensions and turn on Developer Mode. Then, click `Load unpacked` and select this project's `/build` folder. You should see the extension pop up in your extensions bar on the top right of Google Chrome.
+To run the project locally, do:
+```
+npm start
+```
+
+and go to `http://localhost:3000`in your web browser of choice to interact with the app. Note that this is not the Chrome extension yet.
+
+
+On Google Chrome, go to the URL [chrome://extensions/](chrome://extensions/) to access Chrome Extensions and turn on Developer Mode on the top right. Then, click `Load unpacked` and select this project's `/build` folder which should be in base the `/frontend` folder. You should see the extension pop up in your extensions bar on the top right of Google Chrome.
+
+Whenever you make changes to the frontend side of the project, you will need to rebuild the project via `npm run build` after making changes and repeat the steps above to load up the Chrome extension.
 
 ## Setting up Django
 
