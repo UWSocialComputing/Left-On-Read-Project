@@ -1,1 +1,4 @@
+*.sqlite3
+*.pyc
+.venv
 node_modules/
