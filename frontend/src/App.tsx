@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import RoomIcon from './RoomIcon';
 
 interface AppState {
     // TODO
@@ -19,6 +20,7 @@ class App extends Component<{}, AppState> {
         return (
             <div>
                 <p id="app-title">Chrome Extension thing</p>
+                
             </div>
         );
     }
