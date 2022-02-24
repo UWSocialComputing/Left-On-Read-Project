@@ -7,13 +7,13 @@
 console.log('potato farm')
 
 const newDiv = document.createElement("div");
-newDiv.setAttribute("id","lor-banner");
+newDiv.setAttribute("id", "lor-banner");
 
 // set CSS
 
 // make the div the first one
 
-newDiv.setAttribute("class", "footer");
+newDiv.setAttribute("class", "lor-banner");
 
 // for users in room
 // build faces
