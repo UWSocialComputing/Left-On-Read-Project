@@ -61,6 +61,9 @@ python3 manage.py migrate
 # create a super user for editing and inspecting the db
 python3 manage.py createsuperuser
 
+# more stuff
+python manage.py migrate --run-syncdb
+
 # run server
 python manage.py runserver
 ```
