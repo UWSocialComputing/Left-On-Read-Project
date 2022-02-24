@@ -17,6 +17,9 @@
       "matches": [
         "<all_urls>"
       ],
+      "css": [
+        "banner.css"
+      ],
       "js": [
         "inject.js"
       ]

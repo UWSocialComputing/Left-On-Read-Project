@@ -11,7 +11,9 @@ newDiv.setAttribute("id","lor-banner");
 
 // set CSS
 
-newDiv.setAttribute("class", ".footer");
+// make the div the first one
+
+newDiv.setAttribute("class", "footer");
 
 // for users in room
 // build faces
