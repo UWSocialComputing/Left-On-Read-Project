@@ -68,6 +68,8 @@ python manage.py migrate --run-syncdb
 python manage.py runserver
 ```
 
+To populate the server, login to `localhost:8000/admin/`.
+
 Current APIs:
 
 GET `/users`
