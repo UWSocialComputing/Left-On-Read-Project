@@ -80,9 +80,9 @@ for (var userIdx = 0; userIdx < users.length; userIdx++) {
     // instantiate and attach the face
     const faceDiv = document.createElement("div");
     const userName = users[userIdx];
-    faceDiv.setAttribute("id", "lor-user-".concat(userName))
-
-    newDiv.appendChild(faceDiv);
+    let name = userName.substring(0, 2);
+    let randomColor = Math.floor(Math.random()*16777215).toString(16);
+    const faceDiv = generateAvatar(name, "white", "#" + randomColor); // TODO: random color
 
     // set the listener to do the activity indicator
     setInterval(function (userName) {
@@ -90,6 +90,7 @@ for (var userIdx = 0; userIdx < users.length; userIdx++) {
             //
             faceDiv.innerText = "present" + userName;
 
+            newDiv.appendChild(faceDiv);
             // FLAG: this will need to be a pull request
             fetch('https://twyd.herokuapp.com/room/', {
                 method: 'GET'
@@ -106,6 +107,7 @@ for (var userIdx = 0; userIdx < users.length; userIdx++) {
                 });
         }
     }, TIME, userName);
+
 }
 
 // for users in room
@@ -119,3 +121,26 @@ document.body.appendChild(newDiv);
 // query for status
 // }
 // 
+
+// generate an avatar icon
+function generateAvatar(text, foregroundColor, backgroundColor) {
+    console.log("adfljhsdg");
+    const canvas = document.createElement("canvas");
+    const context = canvas.getContext("2d");
+
+    canvas.width = 200;
+    canvas.height = 200;
+
+    // Draw background
+    context.fillStyle = backgroundColor;
+    context.fillRect(0, 0, canvas.width, canvas.height);
+
+    // Draw text
+    context.font = "bold 100px Assistant";
+    context.fillStyle = foregroundColor;
+    context.textAlign = "center";
+    context.textBaseline = "middle";
+    context.fillText(text, canvas.width / 2, canvas.height / 2);
+
+    return canvas;
+}
