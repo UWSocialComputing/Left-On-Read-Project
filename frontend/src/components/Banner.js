@@ -10,10 +10,11 @@ function Banner() {
 
 const styles = {
     main: {
-        position: 'absolute',
-        top: '50%',
+        position: 'fixed',
+        top: '80%',
         left: '50%',
         transform: 'translate(-50%, -50%)',
+        backgroundColor: 'red',
         zIndex: '1000',
         fontSize: '80px',
         pointerEvents: 'none'
