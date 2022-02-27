@@ -1,0 +1,17 @@
+{
+    "name": "ReactJS Chrome Extension",
+    "description": "Using ReactJS to build a Chrome Extension",
+    "version": "0.1.0",
+    "manifest_version": 2,
+    "background": {
+        "scripts": ["./background.js"]
+    },
+    "options_page": "./banner.html",
+    "browser_action": {
+        "default_popup": "banner.html"
+    },
+    "permissions": [
+        "tabs",
+        "<all_urls>"
+    ] 
+}
