@@ -42,6 +42,23 @@ setInterval(function () {
     // add put code here
 }, TIME);
 
+fetch('https://twyd.herokuapp.com/status/user_1/', {
+    method: 'PUT', // or 'PUT'
+    headers: {
+        'Accept': '*/*',
+        'Content-Type': 'application/json',
+    },
+    body: { "current_tab": "Docs", "keyboard_activity": [2, 3, 4] },
+})
+
+fetch('https://twyd.herokuapp.com/room/', {
+    method: 'GET'
+}).then(response => response.json())
+    .then(response => {
+        // Do something with response.
+        console.log(response);
+    });
+
 // for users in room
 // build faces
 
