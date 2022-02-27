@@ -81,7 +81,7 @@ for (var userIdx = 0; userIdx < users.length; userIdx++)
     const faceDiv = document.createElement("div");
     const userName = users[userIdx];
     faceDiv.setAttribute("id", "lor-user-".concat(userName))
-
+    faceDiv.setAttribute("class", "icon")
     newDiv.appendChild(faceDiv);
 
     // set the listener to do the activity indicator
@@ -89,7 +89,7 @@ for (var userIdx = 0; userIdx < users.length; userIdx++)
         if (windowVisible) 
         {
             //
-            faceDiv.innerText = "present" + userName;
+            faceDiv.innerText = "present" + userName + " ";
             // FLAG: this will need to be a pull request
         }
     }, TIME, userName);
