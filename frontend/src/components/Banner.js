@@ -11,13 +11,13 @@ function Banner() {
 const styles = {
     main: {
         position: 'fixed',
-        top: '80%',
-        left: '50%',
+        bottom: '0',
+        left: '0',
+        right: '0',
+        padding: '20px',
         transform: 'translate(-50%, -50%)',
         backgroundColor: 'red',
-        zIndex: '1000',
-        fontSize: '80px',
-        pointerEvents: 'none'
+        color: 'white'
     }
 }
 
