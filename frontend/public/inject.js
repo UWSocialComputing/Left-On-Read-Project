@@ -27,8 +27,9 @@ let clicksArray = [];
 // upon keystroke
 window.onkeydown = function () {
     let currTime = Date.now(); // provides date in ms
-    let diffSec = (currTime - lastTime) / 1000;
-    let timeDiff = Math.round(diffSec * STEP) / STEP; // rounds to nearest 1/STEP
+    let diffMs = currTime - lastTime;
+    // let timeDiff = Math.round(diffMs * STEP) / STEP; // rounds to nearest 1/STEP
+    let timeDiff = diffMs;
     console.log(timeDiff);
     clicksArray.push(timeDiff);
     lastTime = currTime;
