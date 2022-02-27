@@ -34,12 +34,31 @@ window.onkeydown = function () {
     lastTime = currTime;
 };
 
+// keep track of window visibility
+var windowVisible = true;
+
+function visibilityListener() {
+    switch (document.visibilityState) {
+        case "hidden":
+            windowVisible = false;
+            console.log("i'm unseen");
+            break;
+        case "visible":
+            windowVisible = true;
+            break;
+    }
+}
+
+document.addEventListener("visibilitychange", visibilityListener);
+
 // run this at set intervals
 setInterval(function () {
-    document.getElementById("wpm").innerText = clicksArray.length > 0 ? clicksArray.toString() : "sfsfds";
-    clicksArray = [];
+    if (windowVisible) {
+        document.getElementById("wpm").innerText = clicksArray.length > 0 ? clicksArray.toString() : "sfsfds";
+        clicksArray = [];
 
-    // add put code here
+        // add put code here
+    }
 }, TIME);
 
 fetch('https://twyd.herokuapp.com/status/user_1/', {
@@ -50,6 +69,30 @@ fetch('https://twyd.herokuapp.com/status/user_1/', {
     },
     body: { "current_tab": "Docs", "keyboard_activity": [2, 3, 4] },
 })
+
+// build user faces
+var users = ["user_1", "user_2", "user_3"];
+// FLAG: this will some day be programmatic
+
+for (var userIdx = 0; userIdx < users.length; userIdx++)
+{
+    // instantiate and attach the face
+    const faceDiv = document.createElement("div");
+    const userName = users[userIdx];
+    faceDiv.setAttribute("id", "lor-user-".concat(userName))
+
+    newDiv.appendChild(faceDiv);
+
+    // set the listener to do the activity indicator
+    setInterval(function(userName) {
+        if (windowVisible) 
+        {
+            //
+            faceDiv.innerText = "present" + userName;
+            // FLAG: this will need to be a pull request
+        }
+    }, TIME, userName);
+}
 
 fetch('https://twyd.herokuapp.com/room/', {
     method: 'GET'
@@ -70,29 +113,3 @@ document.body.appendChild(newDiv);
 // query for status
 // }
 // 
-
-// class ClicksCounter {
-//     constructor(time, step) {
-//         let lastTime = Date.now();
-//         let clicksArray = [];
-
-//         window.onkeydown = function () {
-//             let currTime = Date.now();
-//             let timeDiff = Math.round(((currTime - lastTime) / 1000) * step) / step;
-//             console.log(timeDiff);
-//             clicksArray.push(timeDiff);
-//             lastTime = currTime;
-//         };
-
-//         this.resetArray = setInterval(function () {
-//             document.getElementById("wpm").innerText = clicksArray;
-//             clicksArray = [];
-//         }, time);
-
-//         this.getArray = function () {
-//             return clicksArray;
-//         };
-//     }
-// }
-
-// var kCounter = new ClicksCounter(1000, 10);
