@@ -62,10 +62,10 @@ python3 manage.py migrate
 python3 manage.py createsuperuser
 
 # more stuff
-python manage.py migrate --run-syncdb
+python3 manage.py migrate --run-syncdb
 
 # run server
-python manage.py runserver
+python3 manage.py runserver
 ```
 
 To populate the server, login to `localhost:8000/admin/`.
