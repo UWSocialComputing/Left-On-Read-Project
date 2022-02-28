@@ -1,18 +1,22 @@
-// build the banner
+// Build
 
-const newDiv = document.createElement("div");
-newDiv.setAttribute("id", "lor-banner");
+// Container init
+const containerDiv = document.createElement("div");
+containerDiv.setAttribute("id", "container");
+containerDiv.setAttribute("class", "container");
 
-// hover-over thing
-const hover = document.createElement("div");
-hover.setAttribute("id", "hover-card");
-newDiv.appendChild(hover);
+// Banner init
+const bannerDiv = document.createElement("div");
+bannerDiv.setAttribute("id", "lor-banner");
+bannerDiv.setAttribute("class", "lor-banner")
 
-// create the debugging div
-newDiv.setAttribute("class", "lor-banner");
-const unDiv = document.createElement("p");
-unDiv.setAttribute("id", "wpm");
-newDiv.appendChild(unDiv);
+// Hover-card init
+const hoverDiv = document.createElement("div");
+hoverDiv.setAttribute("id", "hover-card");
+
+// Add hover-card and banner as children of container
+containerDiv.appendChild(hoverDiv);
+containerDiv.appendChild(bannerDiv);
 
 STEP = 10; // sigfig; round to 1/STEP
 TIME = 1000; // how frequently to run tracking code, in ms 
@@ -58,7 +62,7 @@ const hardcode = [{ "user_name": "user_2", "alias": "Ora Aubrey", "current_tab":
 var users = ["user_1", "user_2", "user_3"];
 const userBox = document.createElement("div");
 userBox.setAttribute("class", "center-align");
-newDiv.appendChild(userBox);
+bannerDiv.appendChild(userBox);
 
 for (var userIdx = 0; userIdx < users.length; userIdx++) {
     // instantiate and attach the face
@@ -185,4 +189,4 @@ for (var userIdx = 0; userIdx < users.length; userIdx++) {
 // build faces
 
 // make the div the first one
-document.body.appendChild(newDiv);
+document.body.appendChild(containerDiv);

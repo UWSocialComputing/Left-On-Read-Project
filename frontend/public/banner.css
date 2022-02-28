@@ -1,16 +1,23 @@
-#lor-banner {
+#container {
     position: sticky;
-    left: 0;
-    bottom: 0;
-    width: 38%;
-    height: 50px;
-    background-color: rgb(255, 159, 159);
-    color: black;
-    text-align: center;
+    bottom: 0px;
+    width: 20%;
+    height: 200px;
     z-index: 999;
     margin: auto;
+}
+
+#lor-banner {
+    height: 30%;
+    width: 100%;
+    background-color: rgb(174, 236, 255);
+    position: absolute;
+    bottom: 0px;
+    z-index: 999;
     display: flex;
     justify-content: center;
+    border-width: 1.5px solid black;
+    margin: auto;
 }
 
 .user-div {
@@ -39,10 +46,14 @@
 }
 
 #hover-card {
-    position: sticky;
-    width: 100;
-    height: 100;
-    background-color: black;
+    width: 50%;
+    height: 67%;
+    position: relative;
+    padding-bottom: 2%;
+    top: 0px;
+    background-color: rgb(174, 236, 255);
+    margin: 0px auto;
+    border: 1.5px solid black;
 }
 
 .side-by-side-elements {
