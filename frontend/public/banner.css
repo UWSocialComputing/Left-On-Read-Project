@@ -4,7 +4,7 @@
     bottom: 0;
     width: 38%;
     height: 50px;
-    background-color: white;
+    background-color: rgb(255, 159, 159);
     color: black;
     text-align: center;
     z-index: 999;
@@ -13,9 +13,38 @@
     justify-content: center;
 }
 
+.user-div {
+    width:50px;
+    height:50px;
+    border-radius:50%;
+    display: inline-block;
+}
+
+.user-img {
+    max-height:100%;
+    max-width:100%;
+    border-radius:50%;
+}
+
+.user-active {
+    width:50px;
+    height:50px;
+    border: solid 5px rgb(255, 0, 0);
+}
+
+.user-inactive {
+    width:50px;
+    height:50px;
+    border: solid 5px rgb(0, 153, 255);
+}
+
 #hover-card {
     position: sticky;
     width: 100;
     height: 100;
     background-color: black;
+}
+
+.side-by-side-elements {
+    display: inline-block;
 }

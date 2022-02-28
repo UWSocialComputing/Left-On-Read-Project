@@ -19,7 +19,8 @@ unDiv.setAttribute("id", "wpm");
 newDiv.appendChild(unDiv);
 
 STEP = 10; // sigfig; round to 1/STEP
-TIME = 10000; // how frequently to run tracking code, in ms 
+TIME = 1000; // how frequently to run tracking code, in ms 
+ACTUALLY_PUT = false;
 
 // keep track of window visibility
 var windowVisible = false;
@@ -57,40 +58,48 @@ window.onkeydown = function () {
 setInterval(function (windowVisible) {
     if (windowVisible) {
         document.getElementById("wpm").innerText = clicksArray.length > 0 ? clicksArray.toString() : "sfsfds";
-        
+
         // PUT
-        fetch('https://twyd.herokuapp.com/status/user_2/', {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ "current_tab": "Docs", "keyboard_activity": clicksArray.length > 0 ? clicksArray : "[]" }),
-        })
+        if (ACTUALLY_PUT) {
+            fetch('https://twyd.herokuapp.com/status/user_2/', {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ "current_tab": "Docs", "keyboard_activity": clicksArray.length > 0 ? clicksArray : "[]" }),
+            })
+        }
     }
     clicksArray = [];
 }, TIME, windowVisible);
 
 // build user faces
-var users = ["user_1", "user_2", "user_3"];
+const hardcode = [{ "user_name": "user_2", "alias": "Ora Aubrey", "current_tab": null, "keyboard_activity": [] }, { "user_name": "user_3", "alias": "Raleigh Wei", "current_tab": null, "keyboard_activity": [] }, { "user_name": "user_1", "alias": "Dana Hikaru", "current_tab": "Docs", "keyboard_activity": [2, 3] }]
 // FLAG: this will some day be programmatic
 
-const hardcode = [{ "user_name": "user_2", "alias": "Ora Aubrey", "current_tab": null, "keyboard_activity": [] }, { "user_name": "user_3", "alias": "Raleigh Wei", "current_tab": null, "keyboard_activity": [] }, { "user_name": "user_1", "alias": "Dana Hikaru", "current_tab": "Docs", "keyboard_activity": [2, 3] }]
+var users = ["user_1", "user_2", "user_3"];
+const userBox = document.createElement("div");
+userBox.setAttribute("class", "center-align");
+newDiv.appendChild(userBox);
 
 for (var userIdx = 0; userIdx < users.length; userIdx++) {
     // instantiate and attach the face
     const faceDiv = document.createElement("div");
+    faceDiv.setAttribute("class", "user-div");
+    // faceDiv.innerHTML = users[userIdx];
+    userBox.appendChild(faceDiv);
+    
+    const img = document.createElement("img");
+    img.setAttribute("src", "https://christopherkang.me/assets/img/Kang_new_prof.jpg")
+    img.setAttribute("class", "user-img");
+    img.setAttribute("id", "user-" + users[userIdx]);
+    faceDiv.appendChild(img);
+
     const userName = users[userIdx];
-    let name = userName.substring(0, 2);
-    let randomColor = Math.floor(Math.random()*16777215).toString(16);
-    const faceDiv = generateAvatar(name, "white", "#" + randomColor); // TODO: random color
 
     // set the listener to do the activity indicator
     setInterval(function (userName) {
         if (windowVisible) {
-            //
-            faceDiv.innerText = "present" + userName;
-
-            newDiv.appendChild(faceDiv);
             // FLAG: this will need to be a pull request
             fetch('https://twyd.herokuapp.com/room/', {
                 method: 'GET'
@@ -100,13 +109,18 @@ for (var userIdx = 0; userIdx < users.length; userIdx++) {
                     // we need to find our specific user
                     // and then simulate their typing
                     for (const userInfo in response) {
-                        if (userInfo["user_name"] == "userName") {
+                        if (userInfo["user_name"] == userName) {
                             console.log(userInfo["keyboard_activity"]);
                         }
                     }
                 });
             // get activity here?
-            pulsate(faceDiv, Math.random()*20+1);
+        }
+        var avatar = document.getElementById("user-" + userName);
+        if (Math.random() > 0.5) {
+            avatar.setAttribute("style", "border: solid 5px rgb(255, 0, 0);");
+        } else{
+            avatar.setAttribute("style", "border: solid 5px rgb(0, 153, 255);");
         }
     }, TIME, userName);
 
@@ -117,48 +131,3 @@ for (var userIdx = 0; userIdx < users.length; userIdx++) {
 
 // make the div the first one
 document.body.appendChild(newDiv);
-
-// while (being seen)
-// {
-// query for status
-// }
-// 
-
-// generate an avatar icon
-function generateAvatar(text, foregroundColor, backgroundColor) {
-    const canvas = document.createElement("canvas");
-    const context = canvas.getContext("2d");
-
-    // refresh before rendering
-    context.clearRect(0, 0, canvas.width, canvas.height);
-
-    canvas.width = 200;
-    canvas.height = 200;
-
-    // Draw background
-    context.fillStyle = backgroundColor;
-    context.fillRect(0, 0, canvas.width, canvas.height);
-
-    // Draw text
-    context.font = "bold 100px Assistant";
-    context.fillStyle = foregroundColor;
-    context.textAlign = "center";
-    context.textBaseline = "middle";
-    context.fillText(text, canvas.width / 2, canvas.height / 2);
-
-    return canvas;
-}
-
-function hoverShowInfo() {
-
-}
-
-function pulsate (canvas, rate) {
-    const context = canvas.getContext("2d");
-
-    // for pulsating    
-    context.lineWidth = 30;
-    context.strokeStyle = rate > 10 ? "#42f56c" : "#fcd860"; // turn to green when active?
-    context.strokeRect(0, 0, canvas.width, canvas.height);//for white background
-    // turn this stroke on and off
-}
