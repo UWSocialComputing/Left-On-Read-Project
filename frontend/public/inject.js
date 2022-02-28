@@ -90,7 +90,7 @@ for (var userIdx = 0; userIdx < users.length; userIdx++)
             newDiv.appendChild(faceDiv);
             // FLAG: this will need to be a pull request
             // get activity here?
-            pulsate(faceDiv, Math.random()*50+0);
+            pulsate(faceDiv, Math.random()*20+1);
         }
     }, TIME, userName);
 
@@ -149,8 +149,8 @@ function pulsate (canvas, rate) {
     const context = canvas.getContext("2d");
 
     // for pulsating    
-    context.lineWidth = rate;
-    context.strokeStyle = "#fcd860";
+    context.lineWidth = 30;
+    context.strokeStyle = rate > 10 ? "#42f56c" : "#fcd860"; // turn to green when active?
     context.strokeRect(0, 0, canvas.width, canvas.height);//for white background
     // turn this stroke on and off
 }
