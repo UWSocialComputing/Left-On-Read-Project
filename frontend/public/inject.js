@@ -1,13 +1,13 @@
 // build the banner
 
-
-
-
-// alert('hello world')
-console.log('potato farm')
-
 const newDiv = document.createElement("div");
 newDiv.setAttribute("id", "lor-banner");
+
+// hover-over thing
+const hover = document.createElement("div");
+hover.setAttribute("id", "hover-card");
+newDiv.appendChild(hover);
+
 
 // set CSS
 
@@ -105,6 +105,8 @@ for (var userIdx = 0; userIdx < users.length; userIdx++) {
                         }
                     }
                 });
+            // get activity here?
+            pulsate(faceDiv, Math.random()*50+0);
         }
     }, TIME, userName);
 
@@ -124,9 +126,11 @@ document.body.appendChild(newDiv);
 
 // generate an avatar icon
 function generateAvatar(text, foregroundColor, backgroundColor) {
-    console.log("adfljhsdg");
     const canvas = document.createElement("canvas");
     const context = canvas.getContext("2d");
+
+    // refresh before rendering
+    context.clearRect(0, 0, canvas.width, canvas.height);
 
     canvas.width = 200;
     canvas.height = 200;
@@ -143,4 +147,18 @@ function generateAvatar(text, foregroundColor, backgroundColor) {
     context.fillText(text, canvas.width / 2, canvas.height / 2);
 
     return canvas;
+}
+
+function hoverShowInfo() {
+
+}
+
+function pulsate (canvas, rate) {
+    const context = canvas.getContext("2d");
+
+    // for pulsating    
+    context.lineWidth = rate;
+    context.strokeStyle = "#fcd860";
+    context.strokeRect(0, 0, canvas.width, canvas.height);//for white background
+    // turn this stroke on and off
 }
