@@ -19,7 +19,25 @@ unDiv.setAttribute("id", "wpm");
 newDiv.appendChild(unDiv);
 
 STEP = 10; // sigfig; round to 1/STEP
-TIME = 1000; // how frequently to run tracking code, in ms 
+TIME = 10000; // how frequently to run tracking code, in ms 
+
+// keep track of window visibility
+var windowVisible = false;
+
+function visibilityListener() {
+    switch (document.visibilityState) {
+        case "hidden":
+            windowVisible = false;
+            console.log("i'm unseen");
+            break;
+        case "visible":
+            windowVisible = true;
+            console.log("I'm seen!!!!!!!");
+            break;
+    }
+}
+
+document.addEventListener("visibilitychange", visibilityListener);
 
 let lastTime = Date.now();
 let clicksArray = [];
@@ -35,74 +53,64 @@ window.onkeydown = function () {
     lastTime = currTime;
 };
 
-// keep track of window visibility
-var windowVisible = true;
-
-function visibilityListener() {
-    switch (document.visibilityState) {
-        case "hidden":
-            windowVisible = false;
-            console.log("i'm unseen");
-            break;
-        case "visible":
-            windowVisible = true;
-            break;
-    }
-}
-
-document.addEventListener("visibilitychange", visibilityListener);
-
 // run this at set intervals
-setInterval(function () {
+setInterval(function (windowVisible) {
     if (windowVisible) {
-       // document.getElementById("wpm").innerText = clicksArray.length > 0 ? clicksArray.toString() : "sfsfds";
-        clicksArray = [];
-
-        // add put code here
+        document.getElementById("wpm").innerText = clicksArray.length > 0 ? clicksArray.toString() : "sfsfds";
+        
+        // PUT
+        fetch('https://twyd.herokuapp.com/status/user_2/', {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ "current_tab": "Docs", "keyboard_activity": clicksArray.length > 0 ? clicksArray : "[]" }),
+        })
     }
-}, TIME);
-
-fetch('https://twyd.herokuapp.com/status/user_1/', {
-    method: 'PUT', // or 'PUT'
-    headers: {
-        'Accept': '*/*',
-        'Content-Type': 'application/json',
-    },
-    body: { "current_tab": "Docs", "keyboard_activity": [2, 3, 4] },
-})
+    clicksArray = [];
+}, TIME, windowVisible);
 
 // build user faces
 var users = ["user_1", "user_2", "user_3"];
 // FLAG: this will some day be programmatic
 
-for (var userIdx = 0; userIdx < users.length; userIdx++)
-{
+const hardcode = [{ "user_name": "user_2", "alias": "Ora Aubrey", "current_tab": null, "keyboard_activity": [] }, { "user_name": "user_3", "alias": "Raleigh Wei", "current_tab": null, "keyboard_activity": [] }, { "user_name": "user_1", "alias": "Dana Hikaru", "current_tab": "Docs", "keyboard_activity": [2, 3] }]
+
+for (var userIdx = 0; userIdx < users.length; userIdx++) {
+    // instantiate and attach the face
+    const faceDiv = document.createElement("div");
     const userName = users[userIdx];
     let name = userName.substring(0, 2);
     let randomColor = Math.floor(Math.random()*16777215).toString(16);
     const faceDiv = generateAvatar(name, "white", "#" + randomColor); // TODO: random color
 
     // set the listener to do the activity indicator
-    setInterval(function(userName) {
-        if (windowVisible) 
-        {
+    setInterval(function (userName) {
+        if (windowVisible) {
             //
+            faceDiv.innerText = "present" + userName;
+
             newDiv.appendChild(faceDiv);
             // FLAG: this will need to be a pull request
+            fetch('https://twyd.herokuapp.com/room/', {
+                method: 'GET'
+            }).then(response => response.json())
+                .then(response => {
+                    console.log(response);
+                    // we need to find our specific user
+                    // and then simulate their typing
+                    for (const userInfo in response) {
+                        if (userInfo["user_name"] == "userName") {
+                            console.log(userInfo["keyboard_activity"]);
+                        }
+                    }
+                });
             // get activity here?
             pulsate(faceDiv, Math.random()*20+1);
         }
     }, TIME, userName);
 
 }
-
-fetch('https://twyd.herokuapp.com/room/', {
-    method: 'GET'
-}).then(response => response.json())
-    .then(response => {
-        // Do something with response.
-        console.log(response);
-    });
 
 // for users in room
 // build faces
