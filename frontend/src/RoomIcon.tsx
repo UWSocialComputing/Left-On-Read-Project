@@ -4,7 +4,8 @@ import { UserOutlined } from '@ant-design/icons';
 import UserInfo from './UserInfo';
 
 interface RoomIconProps {
-    name: String,
+    name: String,       // The name of this person in the room
+    avatar: String,     // File name of this person's profile pic
 }
 
 /**
@@ -16,7 +17,7 @@ class RoomIcon extends Component<RoomIconProps, {}> {
         return (
             <div>
                 <Tooltip placement="right" title={<UserInfo name={this.props.name}/>}>
-                    <Avatar size={64} icon={<UserOutlined />} />
+                    <Avatar size={64} src={this.props.avatar} />
                 </Tooltip>
             </div>
         );  

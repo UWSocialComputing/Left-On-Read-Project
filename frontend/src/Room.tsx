@@ -25,13 +25,27 @@ class App extends Component<{}, AppState> {
     // Fetches current users in the room from the server.
     getUsersInRoom = () => {
         // TODO: GET request to get users from server
-        let fetchedUsers = ["John Doe", "Per Sonne", "Ash", "sdfsfd"]; // To-be JSON
+        let fetchedUsers = [
+            {
+                "user_name": "Ora",
+                "avatar": "https://raw.githubusercontent.com/UWSocialComputing/Left-On-Read-Project/frontend-structure/frontend/resources/ora.jpeg",
+            },
+            {
+                "user_name": "Dana",
+                "avatar": "https://raw.githubusercontent.com/UWSocialComputing/Left-On-Read-Project/frontend-structure/frontend/resources/dana.jpeg",
+            },
+            {
+                "user_name": "Raleigh",
+                "avatar": "https://raw.githubusercontent.com/UWSocialComputing/Left-On-Read-Project/frontend-structure/frontend/resources/raleigh.jpeg",
+            },
+        ];
 
         let roomIconData = [];
         
         // Loop through the server data and create avatar components for each
         for (var i = 0; i < fetchedUsers.length; i++) {
-            roomIconData.push(<RoomIcon name={fetchedUsers[i]}/>);
+            const user = fetchedUsers[i];
+            roomIconData.push(<RoomIcon name={user.user_name} avatar={user.avatar}/>);
         }
 
         this.setState({
