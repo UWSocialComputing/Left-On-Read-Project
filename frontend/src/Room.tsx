@@ -24,33 +24,24 @@ class App extends Component<{}, AppState> {
 
     // Fetches current users in the room from the server.
     getUsersInRoom = () => {
-        // TODO: GET request to get users from server
-        let fetchedUsers = [
-            {
-                "user_name": "Ora",
-                "avatar": "https://raw.githubusercontent.com/UWSocialComputing/Left-On-Read-Project/frontend-structure/frontend/resources/ora.jpeg",
-            },
-            {
-                "user_name": "Dana",
-                "avatar": "https://raw.githubusercontent.com/UWSocialComputing/Left-On-Read-Project/frontend-structure/frontend/resources/dana.jpeg",
-            },
-            {
-                "user_name": "Raleigh",
-                "avatar": "https://raw.githubusercontent.com/UWSocialComputing/Left-On-Read-Project/frontend-structure/frontend/resources/raleigh.jpeg",
-            },
-        ];
+        const usersURL = "https://twyd.herokuapp.com/users/";
 
-        let roomIconData = [];
+        // Retrieve users in current room from the server
+        fetch(usersURL)
+            .then(response => response.json())
+            .then(data => {
+                let roomIconData = [];
         
-        // Loop through the server data and create avatar components for each
-        for (var i = 0; i < fetchedUsers.length; i++) {
-            const user = fetchedUsers[i];
-            roomIconData.push(<RoomIcon name={user.user_name} avatar={user.avatar}/>);
-        }
-
-        this.setState({
-            currUsers: roomIconData
-        });
+                // Loop through the server data and create avatar components for each
+                for (var i = 0; i < data.length; i++) {
+                    const user = data[i];
+                    roomIconData.push(<RoomIcon name={user.alias} avatar={user.avatar}/>);
+                }
+        
+                this.setState({
+                    currUsers: roomIconData
+                });
+            });
     }
 
     render() {
