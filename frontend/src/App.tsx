@@ -3,7 +3,7 @@ import {Space, Card} from 'antd';
 import RoomIcon from './RoomIcon';
 
 interface AppState {
-    currUsers: Array<RoomIcon>
+    currUsers: JSX.Element[]
 }
 
 /**
@@ -18,17 +18,32 @@ class App extends Component<{}, AppState> {
         };
     }
 
-    // TODO for later: generate x number of RoomIcon components
-    // based on number of people in room atm. hard-coded for now
-    
-    // TODO: GET request to fill currUsers array with users from the current room 
+    componentDidMount() {
+        this.getUsersInRoom();
+    }
+
+    // Fetches current users in the room from the server.
+    getUsersInRoom = () => {
+        // TODO: GET request to get users from server
+        let fetchedUsers = ["John Doe", "Per Sonne", "Ash", "sdfsfd"]; // To-be JSON
+
+        let roomIconData = [];
+        
+        // Loop through the server data and create avatar components for each
+        for (var i = 0; i < fetchedUsers.length; i++) {
+            roomIconData.push(<RoomIcon name={fetchedUsers[i]}/>);
+        }
+
+        this.setState({
+            currUsers: roomIconData
+        });
+    }
+
     render() {
         return (
             <Space direction="vertical">
                 <Card title="Room 1" style={{width: 300}}>
-                    <RoomIcon name="John Doe"/>
-                    <RoomIcon name="Per Sonne"/>
-                    <RoomIcon name="Ash Ketchum"/>
+                    {this.state.currUsers}
                 </Card>
             </Space>
         );
