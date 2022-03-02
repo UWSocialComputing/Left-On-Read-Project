@@ -64,19 +64,40 @@ class RoomIcon extends Component<RoomIconProps, RoomIconState> {
         }, RoomIcon.FETCH_TIME);
 
         
-        this.blink_interval = setInterval(() => {
-            this.key_array_idx++;
-            this.blinkIcon(this.key_array[this.key_array_idx]);
+        // this.blink_interval = setInterval(() => {
+        //     this.key_array_idx++;
+        //     this.blinkIcon(this.key_array[this.key_array_idx]);
 
-            if (this.key_array_idx >= this.key_array.length) 
-                this.key_array_idx = 0;
-        }, RoomIcon.BLINK_TIME);
+        //     if (this.key_array_idx >= this.key_array.length) 
+        //         this.key_array_idx = 0;
+        // }, RoomIcon.BLINK_TIME);
+        this.executeBlinkSchedule([10, 500 , 800, 950])
 
     }
 
     componentWillUnmount() {
         clearInterval(this.blink_interval);
         clearInterval(this.fetch_interval);
+    }
+
+    executeBlinkSchedule(schedule: Array<number>) {
+        for (const delay of schedule) {
+            setTimeout(() => this.blink(), delay)
+        }
+    }
+
+    blink() {
+        const flash_on_style = {
+            outline: "none",
+            borderColor: "#fc9402",
+            boxShadow: " 0 0 10px #fc9402",
+        }
+
+        const flash_off_style = {
+            outline: "none",
+        }
+        this.setState({flash: flash_on_style});
+        setTimeout(() => this.setState({flash: flash_off_style}), 90)
     }
 
     blinkIcon(activity: number) {
