@@ -10,7 +10,8 @@ interface RoomIconProps {
 }
 
 interface RoomIconState {
-    flash: any;
+    flash: any,
+    currTab: String,
 }
 
 /**
@@ -33,7 +34,8 @@ class RoomIcon extends Component<RoomIconProps, RoomIconState> {
     constructor(props: any) {
         super(props);
         this.state = {
-            flash: RoomIcon.flash_off_style
+            flash: RoomIcon.flash_off_style,
+            currTab: ""
         };
         this.blink_interval = null;
         this.fetch_interval = null;
@@ -52,10 +54,11 @@ class RoomIcon extends Component<RoomIconProps, RoomIconState> {
                 var result = data.filter((obj: { user_name: String; }) => {return obj.user_name === this.props.user_name});
                 
                 this.key_array = result[0].keyboard_activity;
-                console.log("key array is " + this.key_array);
+                let tab = result[0].current_tab;
+                //console.log("key array is " + this.key_array);
                 // this.count = 0;
                 // this.interval = setInterval(() => this.blinkIcon(keyboard_activity[this.count]), RoomIcon.BLINK_TIME);
-                
+                this.setState({currTab: tab});
             });
             
         }, RoomIcon.FETCH_TIME);
@@ -89,10 +92,10 @@ class RoomIcon extends Component<RoomIconProps, RoomIconState> {
 
         // activity is an array 
         if (activity === 1) {
-            console.log("blink");
+            // console.log("blink");
             this.setState({flash: flash_on_style});
         } else {
-            console.log("off");
+            // console.log("off");
             this.setState({flash: flash_off_style});
         }
         this.count++;
@@ -102,7 +105,7 @@ class RoomIcon extends Component<RoomIconProps, RoomIconState> {
 
         return (
             <div>
-                <Tooltip placement="right" title={<UserInfo name={this.props.name}/>}>
+                <Tooltip placement="right" title={<UserInfo name={this.props.name} currTab={this.state.currTab}/>}>
                     <Avatar size={64} src={this.props.avatar} style={this.state.flash}/>
                 </Tooltip>
             </div>
