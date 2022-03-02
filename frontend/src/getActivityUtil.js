@@ -17,7 +17,7 @@ export class KeyboardReader {
     // };
 
     this.resetArray = setInterval(function () {
-      console.log(clicksArray);
+      // console.log(clicksArray);
       clicksArray = [];
       lastTime = Date.now();
     }, sample_interval);

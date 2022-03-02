@@ -21,7 +21,7 @@ class Room extends Component<{}, AppState> {
 
     // PUT time interval
     static PUT_TIME = 1000;
-    static KR = new KeyboardReader(this.PUT_TIME + 5); // Offset by 5 to send out right before sample actually resets
+    
     
     constructor(props: any) {
         super(props);
@@ -43,7 +43,7 @@ class Room extends Component<{}, AppState> {
     // Fetches current users in the room from the server.
     getUsersInRoom = () => {
         const usersURL = "https://twyd.herokuapp.com/users/";
-
+        
         // Retrieve users in current room from the server
         fetch(usersURL)
             .then(response => response.json())
@@ -66,10 +66,12 @@ class Room extends Component<{}, AppState> {
         const sendDataURL = "https://twyd.herokuapp.com/status/" + Room.USER_NAME + "/";
         // Sends PUT request about current user 
         // current tab + keyboard activity
+        const KR = new KeyboardReader(Room.PUT_TIME + 5); // Offset by 5 to send out right before sample actually resets
+
         this.send_interval = setInterval(() => {
             let userData = {
                 current_tab: "YouTube", // TODO
-                keyboard_activity: "[" + Room.KR.getArray().toString() + "]"
+                keyboard_activity: "[" + KR.getArray().toString() + "]"
             }
             console.log(userData.keyboard_activity)
             fetch(sendDataURL, {
