@@ -14,10 +14,22 @@ interface RoomIconProps {
 class RoomIcon extends Component<RoomIconProps, {}> {
 
     render() {
+        const flash_on_style = {
+            outline: "none",
+            borderColor: "#3369ff",
+            boxShadow: " 0 0 10px #9ecaed",
+        }
+
+        const flash_off_style = {
+            outline: "none",
+        }
+
+        // conditional check this
+
         return (
             <div>
                 <Tooltip placement="right" title={<UserInfo name={this.props.name}/>}>
-                    <Avatar size={64} src={this.props.avatar} />
+                    <Avatar size={64} src={this.props.avatar} style={flash_on_style}/>
                 </Tooltip>
             </div>
         );  
