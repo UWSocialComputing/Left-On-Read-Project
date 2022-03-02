@@ -6,6 +6,7 @@ import UserInfo from './UserInfo';
 interface RoomIconProps {
     name: String,       // The name of this person in the room
     avatar: String,     // File name of this person's profile pic
+    user_name: String,
 }
 
 interface RoomIconState {
@@ -16,56 +17,85 @@ interface RoomIconState {
  * Represents an icon of a person in the current 'Room'
  */
 class RoomIcon extends Component<RoomIconProps, RoomIconState> {
-    interval: any;
+    blink_interval: any;
+    fetch_interval: any;
+    count: any;
+    key_array: any;
+    key_array_idx: any;
 
-    static BLINK_TIME = 500;
+    static BLINK_TIME = 250; // 0.25 second
+    static FETCH_TIME = 1200; // 1.2 Seconds
 
     static flash_off_style = {
         outline: "none",
     }
-
+    
     constructor(props: any) {
         super(props);
         this.state = {
             flash: RoomIcon.flash_off_style
         };
-        this.interval = null;
+        this.blink_interval = null;
+        this.fetch_interval = null;
+        this.key_array = [0, 0, 0, 0];
+        this.key_array_idx = 0;
     }
 
     componentDidMount() {
         const roomUrl = "https://twyd.herokuapp.com/room/";
 
-        fetch(roomUrl)
+        // Set to fetch for keyboard data every FETCH_TIME (1.2 seconds)
+        this.fetch_interval = setInterval(() => {
+            fetch(roomUrl)
             .then(response => response.json())
             .then(data => {
-                var result = data.filter((obj: { name: String; }) => {return obj.name === this.props.name});
-                var keyboard_activity = result['keyboard_activity'];
-                for (var i = 0; i < keyboard_activity.length; i++) {
-                    this.interval = setInterval(() => this.blinkIcon(keyboard_activity[i]), RoomIcon.BLINK_TIME);
-                }
+                var result = data.filter((obj: { user_name: String; }) => {return obj.user_name === this.props.user_name});
+                
+                this.key_array = result[0].keyboard_activity;
+                console.log("key array is " + this.key_array);
+                // this.count = 0;
+                // this.interval = setInterval(() => this.blinkIcon(keyboard_activity[this.count]), RoomIcon.BLINK_TIME);
+                
             });
+            
+        }, RoomIcon.FETCH_TIME);
+
+        
+        this.blink_interval = setInterval(() => {
+            this.key_array_idx++;
+            this.blinkIcon(this.key_array[this.key_array_idx]);
+
+            if (this.key_array_idx >= this.key_array.length) 
+                this.key_array_idx = 0;
+        }, RoomIcon.BLINK_TIME);
+
     }
 
     componentWillUnmount() {
-        clearInterval(this.interval);
+        clearInterval(this.blink_interval);
+        clearInterval(this.fetch_interval);
     }
 
     blinkIcon(activity: number) {
         const flash_on_style = {
             outline: "none",
-            borderColor: "#3369ff",
-            boxShadow: " 0 0 10px #9ecaed",
+            borderColor: "#fc9402",
+            boxShadow: " 0 0 10px #fc9402",
         }
 
         const flash_off_style = {
             outline: "none",
         }
 
+        // activity is an array 
         if (activity === 1) {
+            console.log("blink");
             this.setState({flash: flash_on_style});
         } else {
+            console.log("off");
             this.setState({flash: flash_off_style});
         }
+        this.count++;
     }
 
     render() {

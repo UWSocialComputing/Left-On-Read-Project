@@ -35,7 +35,7 @@ class App extends Component<{}, AppState> {
                 // Loop through the server data and create avatar components for each
                 for (var i = 0; i < data.length; i++) {
                     const user = data[i];
-                    roomIconData.push(<RoomIcon name={user.alias} avatar={user.avatar}/>);
+                    roomIconData.push(<RoomIcon name={user.alias} avatar={user.avatar} user_name={user.user_name}/>);
                 }
         
                 this.setState({
