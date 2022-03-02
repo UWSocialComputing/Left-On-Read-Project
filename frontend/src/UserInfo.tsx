@@ -12,7 +12,7 @@ class UserInfo extends Component<UserInfoProps, {}> {
     render() {
         return (
             <Card title={this.props.name} style={{width: 200}}>
-                <p>Current tab: {this.props.currTab}</p>
+                <p>On {this.props.currTab}</p>
             </Card>
         );
     }

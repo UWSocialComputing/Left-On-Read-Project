@@ -18,17 +18,19 @@ interface RoomIconState {
  * Represents an icon of a person in the current 'Room'
  */
 class RoomIcon extends Component<RoomIconProps, RoomIconState> {
-    blink_interval: any;
     fetch_interval: any;
-    count: any;
     key_array: any;
-    key_array_idx: any;
 
-    static BLINK_TIME = 250; // 0.25 second
-    static FETCH_TIME = 1200; // 1.2 Seconds
+    static BLINK_TIME = 82; // Blink Duration 0.08 seconds (around the time between keys being held)
+    static FETCH_TIME = 1200; // Fetch Interval Duration 1.2 Seconds
 
-    static flash_off_style = {
+    static flash_off_style = { // CSS style for non-blinking state
         outline: "none",
+    }
+    static flash_on_style = { // CSS style for blinking state
+        outline: "none",
+        borderColor: "#fc9402",
+        boxShadow: "0 0 10px #fc9402",
     }
     
     constructor(props: any) {
@@ -37,10 +39,8 @@ class RoomIcon extends Component<RoomIconProps, RoomIconState> {
             flash: RoomIcon.flash_off_style,
             currTab: ""
         };
-        this.blink_interval = null;
         this.fetch_interval = null;
-        this.key_array = [0, 0, 0, 0];
-        this.key_array_idx = 0;
+        this.key_array = [];
     }
 
     componentDidMount() {
@@ -52,31 +52,17 @@ class RoomIcon extends Component<RoomIconProps, RoomIconState> {
             .then(response => response.json())
             .then(data => {
                 var result = data.filter((obj: { user_name: String; }) => {return obj.user_name === this.props.user_name});
-                
+
                 this.key_array = result[0].keyboard_activity;
                 let tab = result[0].current_tab;
-                //console.log("key array is " + this.key_array);
-                // this.count = 0;
-                // this.interval = setInterval(() => this.blinkIcon(keyboard_activity[this.count]), RoomIcon.BLINK_TIME);
                 this.setState({currTab: tab});
+                this.executeBlinkSchedule(this.key_array);
             });
             
         }, RoomIcon.FETCH_TIME);
-
-        
-        // this.blink_interval = setInterval(() => {
-        //     this.key_array_idx++;
-        //     this.blinkIcon(this.key_array[this.key_array_idx]);
-
-        //     if (this.key_array_idx >= this.key_array.length) 
-        //         this.key_array_idx = 0;
-        // }, RoomIcon.BLINK_TIME);
-        this.executeBlinkSchedule([10, 500 , 800, 950])
-
     }
 
     componentWillUnmount() {
-        clearInterval(this.blink_interval);
         clearInterval(this.fetch_interval);
     }
 
@@ -87,39 +73,8 @@ class RoomIcon extends Component<RoomIconProps, RoomIconState> {
     }
 
     blink() {
-        const flash_on_style = {
-            outline: "none",
-            borderColor: "#fc9402",
-            boxShadow: " 0 0 10px #fc9402",
-        }
-
-        const flash_off_style = {
-            outline: "none",
-        }
-        this.setState({flash: flash_on_style});
-        setTimeout(() => this.setState({flash: flash_off_style}), 90)
-    }
-
-    blinkIcon(activity: number) {
-        const flash_on_style = {
-            outline: "none",
-            borderColor: "#fc9402",
-            boxShadow: " 0 0 10px #fc9402",
-        }
-
-        const flash_off_style = {
-            outline: "none",
-        }
-
-        // activity is an array 
-        if (activity === 1) {
-            // console.log("blink");
-            this.setState({flash: flash_on_style});
-        } else {
-            // console.log("off");
-            this.setState({flash: flash_off_style});
-        }
-        this.count++;
+        this.setState({flash: RoomIcon.flash_on_style});
+        setTimeout(() => this.setState({flash: RoomIcon.flash_off_style}), RoomIcon.BLINK_TIME)
     }
 
     render() {
