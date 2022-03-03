@@ -1,12 +1,13 @@
 import React, {Component} from 'react';
 import {Space, Card} from 'antd';
 import RoomIcon from './RoomIcon';
-import { KeyboardReader } from './getActivityUtil';
+import { KeyboardReader, testTab } from './getActivityUtil';
 
 //import {getKeyboardActivity} from './getActivityUtil.js';
 
 interface AppState {
     currUsers: JSX.Element[]
+    tabInfo: {}
 }
 
 /**
@@ -26,7 +27,8 @@ class Room extends Component<{}, AppState> {
     constructor(props: any) {
         super(props);
         this.state = {
-            currUsers: []
+            currUsers: [],
+            tabInfo: {}
         };
         this.send_interval = null;
     }
@@ -39,6 +41,19 @@ class Room extends Component<{}, AppState> {
     componentWillUnmount() {
         clearInterval(this.send_interval);
     }
+    
+    getTab = () => {
+        chrome.runtime.sendMessage(
+            "tab",
+             (response) => {
+                console.log("got " + response);
+                
+                this.setState({
+                    tabInfo: response
+                });
+            }
+        );
+    }
 
     // Fetches current users in the room from the server.
     getUsersInRoom = () => {
@@ -49,7 +64,7 @@ class Room extends Component<{}, AppState> {
             .then(response => response.json())
             .then(data => {
                 let roomIconData = [];
-        
+            
                 // Loop through the server data and create avatar components for each
                 for (var i = 0; i < data.length; i++) {
                     const user = data[i];
@@ -69,11 +84,12 @@ class Room extends Component<{}, AppState> {
         const KR = new KeyboardReader(Room.PUT_TIME + 5); // Offset by 5 to send out right before sample actually resets
 
         this.send_interval = setInterval(() => {
+            this.getTab();
             let userData = {
                 current_tab: "YouTube", // TODO
                 keyboard_activity: "[" + KR.getArray().toString() + "]"
             }
-            console.log(userData.keyboard_activity)
+            
             fetch(sendDataURL, {
                 method: 'PUT',
                 headers: {

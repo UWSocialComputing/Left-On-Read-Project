@@ -28,3 +28,7 @@ export class KeyboardReader {
   }
 } 
 
+
+export function testTab(response) {
+  return response;
+}
