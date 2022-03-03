@@ -58,9 +58,12 @@ class Room extends Component<{}, AppState> {
                 }
                     
                 // Get the favicon url, use chrome default if undefined
-                if (response == null || response.favURL === undefined) 
+                if (response == null || response.favURL === undefined) {
                     favurl = "chrome://favicon/";
-                
+                } else {
+                    favurl = response.favURL;
+                }
+                    
                 this.setState({
                     tabInfo: {url: domain, favURL: favurl}
                 });
