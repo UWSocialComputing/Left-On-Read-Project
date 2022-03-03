@@ -28,7 +28,7 @@ class Room extends Component<{}, AppState> {
         super(props);
         this.state = {
             currUsers: [],
-            tabInfo: {}
+            tabInfo: {url: "", favURL: ""}
         };
         this.send_interval = null;
     }
@@ -47,7 +47,13 @@ class Room extends Component<{}, AppState> {
             "tab",
              (response) => {
                 console.log("got " + response);
-                
+                var preUrl = response.url.toString;
+
+                let domain = (new URL(preUrl));
+
+                let stringUrl = domain.hostname.replace('https://www.', '');
+                console.log(stringUrl);
+
                 this.setState({
                     tabInfo: response
                 });
@@ -68,7 +74,7 @@ class Room extends Component<{}, AppState> {
                 // Loop through the server data and create avatar components for each
                 for (var i = 0; i < data.length; i++) {
                     const user = data[i];
-                    roomIconData.push(<RoomIcon name={user.alias} avatar={user.avatar} user_name={user.user_name}/>);
+                    roomIconData.push(<RoomIcon name={user.alias} avatar={user.avatar} user_name={user.user_name} currTab={user.current_tab}/>);
                 }
         
                 this.setState({
@@ -86,7 +92,8 @@ class Room extends Component<{}, AppState> {
         this.send_interval = setInterval(() => {
             this.getTab();
             let userData = {
-                current_tab: "YouTube", // TODO
+                // "{ url:" + tabInfo.url, favUrl: tabInfo.favUrl + "}"
+                current_tab: "",
                 keyboard_activity: "[" + KR.getArray().toString() + "]"
             }
             

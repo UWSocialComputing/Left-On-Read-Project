@@ -7,11 +7,11 @@ interface RoomIconProps {
     name: String,       // The name of this person in the room
     avatar: String,     // File name of this person's profile pic
     user_name: String,
+    currTab: String,
 }
 
 interface RoomIconState {
     flash: any,
-    currTab: String,
 }
 
 /**
@@ -37,7 +37,6 @@ class RoomIcon extends Component<RoomIconProps, RoomIconState> {
         super(props);
         this.state = {
             flash: RoomIcon.flash_off_style,
-            currTab: ""
         };
         this.fetch_interval = null;
         this.key_array = [];
@@ -55,7 +54,6 @@ class RoomIcon extends Component<RoomIconProps, RoomIconState> {
 
                 this.key_array = result[0].keyboard_activity;
                 let tab = result[0].current_tab;
-                this.setState({currTab: tab});
                 this.executeBlinkSchedule(this.key_array);
             });
             
@@ -81,7 +79,7 @@ class RoomIcon extends Component<RoomIconProps, RoomIconState> {
 
         return (
             <div>
-                <Tooltip placement="right" title={<UserInfo name={this.props.name} currTab={this.state.currTab}/>}>
+                <Tooltip placement="right" title={<UserInfo name={this.props.name} currTab={this.props.currTab}/>}>
                     <Avatar size={64} src={this.props.avatar} style={this.state.flash}/>
                 </Tooltip>
             </div>
