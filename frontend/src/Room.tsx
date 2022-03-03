@@ -1,13 +1,13 @@
 import React, {Component} from 'react';
 import {Space, Card} from 'antd';
 import RoomIcon from './RoomIcon';
-import { KeyboardReader, testTab } from './getActivityUtil';
+import { KeyboardReader } from './getActivityUtil';
 
 //import {getKeyboardActivity} from './getActivityUtil.js';
 
 interface AppState {
     currUsers: JSX.Element[]
-    tabInfo: {}
+    tabInfo: {url: string, favURL: string}
 }
 
 /**
@@ -45,18 +45,27 @@ class Room extends Component<{}, AppState> {
     getTab = () => {
         chrome.runtime.sendMessage(
             "tab",
-             (response) => {
-                console.log("got " + response);
-                var preUrl = response.url.toString;
-
-                let domain = (new URL(preUrl));
-
-                let stringUrl = domain.hostname.replace('https://www.', '');
-                console.log(stringUrl);
-
+              (response) => {
+                // Extract domain name from url
+                let domain = "";
+                let favurl = "";
+                
+                if (response == null || response.url.toString() === "") {
+                    domain = "chrome";
+                } else {
+                    console.log(response.url.toString());
+                    domain = (new URL(response.url.toString())).hostname;
+                }
+                    
+                // Get the favicon url, use chrome default if undefined
+                if (response == null || response.favURL === undefined) 
+                    favurl = "chrome://favicon/";
+                
                 this.setState({
-                    tabInfo: response
+                    tabInfo: {url: domain, favURL: favurl}
                 });
+
+                console.log(JSON.stringify(this.state.tabInfo));
             }
         );
     }
@@ -80,6 +89,7 @@ class Room extends Component<{}, AppState> {
                 this.setState({
                     currUsers: roomIconData
                 });
+
             });
     }
 
@@ -93,7 +103,7 @@ class Room extends Component<{}, AppState> {
             this.getTab();
             let userData = {
                 // "{ url:" + tabInfo.url, favUrl: tabInfo.favUrl + "}"
-                current_tab: "",
+                current_tab: JSON.stringify(this.state.tabInfo),
                 keyboard_activity: "[" + KR.getArray().toString() + "]"
             }
             

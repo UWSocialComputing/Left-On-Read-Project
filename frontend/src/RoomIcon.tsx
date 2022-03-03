@@ -8,6 +8,7 @@ interface RoomIconProps {
     avatar: String,     // File name of this person's profile pic
     user_name: String,
     currTab: String,
+    
 }
 
 interface RoomIconState {
@@ -20,6 +21,7 @@ interface RoomIconState {
 class RoomIcon extends Component<RoomIconProps, RoomIconState> {
     fetch_interval: any;
     key_array: any;
+    tabObj: any;
 
     static BLINK_TIME = 82; // Blink Duration 0.08 seconds (around the time between keys being held)
     static FETCH_TIME = 1200; // Fetch Interval Duration 1.2 Seconds
@@ -40,6 +42,7 @@ class RoomIcon extends Component<RoomIconProps, RoomIconState> {
         };
         this.fetch_interval = null;
         this.key_array = [];
+        this.tabObj = {};
     }
 
     componentDidMount() {
@@ -53,7 +56,9 @@ class RoomIcon extends Component<RoomIconProps, RoomIconState> {
                 var result = data.filter((obj: { user_name: String; }) => {return obj.user_name === this.props.user_name});
 
                 this.key_array = result[0].keyboard_activity;
-                let tab = result[0].current_tab;
+                this.tabObj = JSON.parse(result[0].current_tab);
+                
+                console.log(this.tabObj);
                 this.executeBlinkSchedule(this.key_array);
             });
             
@@ -79,8 +84,9 @@ class RoomIcon extends Component<RoomIconProps, RoomIconState> {
 
         return (
             <div>
-                <Tooltip placement="right" title={<UserInfo name={this.props.name} currTab={this.props.currTab}/>}>
+                <Tooltip placement="right" title={<UserInfo name={this.props.name} currTab={this.tabObj.url}/>}>
                     <Avatar size={64} src={this.props.avatar} style={this.state.flash}/>
+
                 </Tooltip>
             </div>
         );  
