@@ -109,7 +109,7 @@ class Room extends Component<{}, AppState> {
                 current_tab: JSON.stringify(this.state.tabInfo),
                 keyboard_activity: "[" + KR.getArray().toString() + "]"
             }
-            
+            console.log(userData.keyboard_activity);
             fetch(sendDataURL, {
                 method: 'PUT',
                 headers: {
