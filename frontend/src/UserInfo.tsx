@@ -3,17 +3,17 @@ import {Card, Space, Image} from 'antd';
 
 interface UserInfoProps {
     name: String,
-    currTab: String,
+    currTabInfo: any,
 }
-
 
 class UserInfo extends Component<UserInfoProps, {}> {
 
     render() {
-        let tabLabel = `On ${this.props.currTab}`;
-        let favicon = "https://www.google.com/favicon.ico";
-        
-        if (this.props.currTab === undefined) {
+        const url = this.props.currTabInfo.url;
+        let tabLabel = `On ${url}`;
+        let favicon = `https://www.${url}/favicon.ico`;
+
+        if (url === undefined) {
             tabLabel = "Idle";
             favicon = "";
         }
