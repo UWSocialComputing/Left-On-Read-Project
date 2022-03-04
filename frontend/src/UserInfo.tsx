@@ -1,47 +1,29 @@
 import React, {Component} from 'react';
-import {Card} from 'antd';
+import {Card, Space, Image} from 'antd';
 
 interface UserInfoProps {
     name: String,
+    currTabInfo: any,
 }
 
-interface UserInfoState {
-    currWpm: number,
-    currTab: String,
-}
-
-class UserInfo extends Component<UserInfoProps, UserInfoState> {
-    interval: any;
-
-    constructor(props: any) {
-        super(props);
-        // TODO: data polled from server or something
-        this.state = {
-            currWpm: 100,
-            currTab: "Google Drive",
-        };
-        this.interval = null;
-    }
-
-    getWpm() {
-        this.setState(state => ({
-            currWpm: Math.floor(Math.random() * 70) + 50 // hard-coded random WPM for now
-        }));
-    }
-    
-    componentDidMount() {
-        this.interval = setInterval(() => this.getWpm(), 2000);
-    }
-
-    componentWillUnmount() {
-        clearInterval(this.interval);
-    }
+class UserInfo extends Component<UserInfoProps, {}> {
 
     render() {
+        const url = this.props.currTabInfo.url;
+        let tabLabel = `On ${url}`;
+        let favicon = `https://www.${url}/favicon.ico`;
+
+        if (url === undefined) {
+            tabLabel = "Idle";
+            favicon = "";
+        }
+
         return (
             <Card title={this.props.name} style={{width: 200}}>
-                <p>WPM: {this.state.currWpm}</p>
-                <p>Current tab: {this.state.currTab}</p>
+                <Space align="baseline">
+                    <Image width={16} preview={false} src={favicon}/>
+                    <p>{tabLabel}</p>
+                </Space>
             </Card>
         );
     }
