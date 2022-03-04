@@ -7,7 +7,7 @@ interface UserProps {
   name: String; // The name of this person in the room
   avatar: String; // File name of this person's profile pic
   user_name: String;
-  currTab: String;
+  currTab: any;
   keyboardActivity: any;
 }
 
@@ -21,7 +21,6 @@ interface UserState {
 class User extends Component<UserProps, UserState> {
   fetch_interval: any;
   key_array: any;
-  tabObj: any;
 
   static BLINK_TIME = 82; // Blink Duration 0.08 seconds (around the time between keys being held)
   static FETCH_TIME = 1200; // Fetch Interval Duration 1.2 Seconds
@@ -44,7 +43,6 @@ class User extends Component<UserProps, UserState> {
     };
     this.fetch_interval = null;
     this.key_array = [];
-    this.tabObj = {};
   }
 
   componentDidMount() {
@@ -77,7 +75,7 @@ class User extends Component<UserProps, UserState> {
       <div>
         <Tooltip
           placement="right"
-          title={<UserInfo name={this.props.name} currTabInfo={this.tabObj} />}
+          title={<UserInfo name={this.props.name} currTabInfo={this.props.currTab} />}
         >
           <Avatar size={64} src={this.props.avatar} style={this.state.flash} />
         </Tooltip>

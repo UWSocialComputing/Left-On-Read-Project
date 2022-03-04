@@ -8,7 +8,7 @@ interface UserInfoProps {
 
 class UserInfo extends Component<UserInfoProps, {}> {
   render() {
-    const url = this.props.currTabInfo.url;
+    const url = JSON.parse(this.props.currTabInfo).url;
     let tabLabel = `On ${url}`;
     let favicon = `https://www.${url}/favicon.ico`;
 

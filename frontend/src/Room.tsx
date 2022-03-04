@@ -92,6 +92,7 @@ class Room extends Component<{}, AppState> {
             for (var i = 0; i < avatarData.length; i++) {
               let user = roomData[i];
               let avatar = avatarData[i];
+              console.log(user.current_tab)
               userData.push(
                 <User
                   name={user.name}
