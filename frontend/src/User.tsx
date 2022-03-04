@@ -16,8 +16,8 @@ interface UserState {
 }
 
 /**
- * Represents an icon of a person in the current 'Room'
- */
+ * Represents an icon of a person in the current 'Room' and the user's current information
+ **/
 class User extends Component<UserProps, UserState> {
   fetch_interval: any;
   key_array: any;
@@ -29,6 +29,7 @@ class User extends Component<UserProps, UserState> {
     // CSS style for non-blinking state
     outline: "none",
   };
+
   static flash_on_style = {
     // CSS style for blinking state
     outline: "none",
@@ -75,7 +76,9 @@ class User extends Component<UserProps, UserState> {
       <div>
         <Tooltip
           placement="right"
-          title={<UserInfo name={this.props.name} currTabInfo={this.props.currTab} />}
+          title={
+            <UserInfo name={this.props.name} currTabInfo={this.props.currTab} />
+          }
         >
           <Avatar size={64} src={this.props.avatar} style={this.state.flash} />
         </Tooltip>

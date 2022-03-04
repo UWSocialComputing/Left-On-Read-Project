@@ -6,6 +6,10 @@ interface UserInfoProps {
   currTabInfo: any;
 }
 
+/**
+ * Represents a card showing information about the current user
+ * Currently shows a user's current tab
+ */
 class UserInfo extends Component<UserInfoProps, {}> {
   render() {
     const url = JSON.parse(this.props.currTabInfo).url;

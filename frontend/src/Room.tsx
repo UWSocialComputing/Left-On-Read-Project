@@ -1,10 +1,7 @@
-import React, { Component } from "react";
+import { Component } from "react";
 import { Space, Card } from "antd";
 import User from "./User";
 import { KeyboardReader } from "./getActivityUtil";
-import _, { isUndefined } from "lodash";
-
-//import {getKeyboardActivity} from './getActivityUtil.js';
 
 interface AppState {
   currUsers: JSX.Element[];
@@ -16,6 +13,7 @@ interface AppState {
  */
 class Room extends Component<{}, AppState> {
   send_interval: any;
+
   // "Sign-up" process
   static ROOM_NAME = "twyd room";
   static USER_NAME = "LOR_USER";
@@ -65,8 +63,6 @@ class Room extends Component<{}, AppState> {
       this.setState({
         tabInfo: { url: domain, favURL: favurl },
       });
-
-      console.log(JSON.stringify(this.state.tabInfo));
     });
   };
 
@@ -84,6 +80,7 @@ class Room extends Component<{}, AppState> {
         roomData = data;
       })
       .then(() => {
+        // Do a second fetch to get the users' avatars
         fetch(usersURL)
           .then((response) => response.json())
           .then((avatarData) => {
@@ -92,7 +89,8 @@ class Room extends Component<{}, AppState> {
             for (var i = 0; i < avatarData.length; i++) {
               let user = roomData[i];
               let avatar = avatarData[i];
-              console.log(user.current_tab)
+
+              // Create User components for each user in the room
               userData.push(
                 <User
                   name={user.name}
@@ -109,13 +107,12 @@ class Room extends Component<{}, AppState> {
             });
           });
       });
-
-    // combine data to make User components
   };
 
   sendUserData = () => {
     const sendDataURL =
       "https://twyd.herokuapp.com/status/" + Room.USER_NAME + "/";
+
     // Sends PUT request about current user
     // current tab + keyboard activity
     const KR = new KeyboardReader(Room.PUT_TIME + 5); // Offset by 5 to send out right before sample actually resets
@@ -127,7 +124,7 @@ class Room extends Component<{}, AppState> {
         current_tab: JSON.stringify(this.state.tabInfo),
         keyboard_activity: "[" + KR.getArray().toString() + "]",
       };
-      console.log(userData.keyboard_activity);
+
       fetch(sendDataURL, {
         method: "PUT",
         headers: {
