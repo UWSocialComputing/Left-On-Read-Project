@@ -92,7 +92,7 @@ class Room extends Component<{}, AppState> {
               // Create User components for each user in the room
               userData.push(
                 <User
-                  name={user.name}
+                  name={user.alias}
                   avatar={avatar.avatar}
                   user_name={user.alias}
                   currTab={user.current_tab}
