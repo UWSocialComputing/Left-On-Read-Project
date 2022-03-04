@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {Space, Card} from 'antd';
 import User from './User';
 import { KeyboardReader } from './getActivityUtil';
-import _ from 'lodash';
+import _, { isUndefined } from 'lodash';
 
 //import {getKeyboardActivity} from './getActivityUtil.js';
 
@@ -78,29 +78,37 @@ class Room extends Component<{}, AppState> {
         const usersURL = "https://twyd.herokuapp.com/users/";
         const roomURL = "https://twyd.herokuapp.com/room/";
 
-        let roomData: any[] = [];
-        let avatarData: any[] = [];
+        let roomData: Array<any>;
 
         // Retrieve users in current room from the server
         fetch(roomURL)
             .then(response => response.json())
             .then(data => {
-                for (var i = 0; i < data.length; i++) {
-                    roomData.push(data[i]);
-                }
-            }
-        );
+                roomData = data;
+            })
+            .then(() => {
+                fetch(usersURL)
+                .then(response => response.json())
+                .then(avatarData => {
+                    let userData = [];
 
-        fetch(usersURL)
-            .then(response => response.json())
-            .then(data => {
-                for (var i = 0; i < data.length; i++) {
-                    avatarData.push(data[i]);
+                    for (var i = 0; i < avatarData.length; i++) {
+                        let user = roomData[i];
+                        let avatar = avatarData[i];
+                        userData.push(<User
+                            name={user.name}
+                            avatar={avatar.avatar}
+                            user_name={user.alias}
+                            currTab={user.current_tab}
+                            keyboardActivity={user.keyboard_activity}/>)
+                    }
+
+                    this.setState({
+                        currUsers: userData
+                    })
                 }
-            }
-        );
-        console.log(roomData);
-        console.log(roomData[0]);
+            );
+        });
 
         // combine data to make User components
 

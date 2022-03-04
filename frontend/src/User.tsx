@@ -73,7 +73,6 @@ class User extends Component<UserProps, UserState> {
             <div>
                 <Tooltip placement="right" title={<UserInfo name={this.props.name} currTabInfo={this.tabObj}/>}>
                     <Avatar size={64} src={this.props.avatar} style={this.state.flash}/>
-
                 </Tooltip>
             </div>
         );  
