@@ -9,15 +9,23 @@ async function getCurrentTab() {
 chrome.tabs.onActivated.addListener(getCurrentTab);
 
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
-  if (request.query === "tab") console.log(request);
-  // console.log(sender);
-  console.log("sendResponse: " + JSON.stringify(current_tab_object));
-  // console.log("title: " + current_tab_object.url);
-  // console.log("favIconUrl: " + current_tab_object.favIconUrl);
+  if (request === "tab") {
+    console.log("res from sendResponse: " + JSON.stringify(current_tab_object));
 
-  sendResponse({
-    url: current_tab_object.url,
-    favURL: current_tab_object.favIconUrl,
-  });
+    if (current_tab_object == null) {
+      sendResponse({
+        url: "chrome",
+        favURL: "https://www.google.com/favicon.ico",
+      });
+      return true;
+    }
+
+    sendResponse({
+      url: current_tab_object.url,
+      favURL: current_tab_object.favIconUrl,
+    });
+
+  }
+  
   return true;
 });
