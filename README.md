@@ -78,3 +78,12 @@ GET `/room`
 
 PUT `/status/<user_name>`
 
+## Running prettier
+
+Prettier is a code-formatting tool. To run prettier:
+
+```
+cd frontend
+
+npx prettier --write .
+```
