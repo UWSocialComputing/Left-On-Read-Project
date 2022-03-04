@@ -5,7 +5,7 @@ import { KeyboardReader } from "./getActivityUtil";
 
 interface AppState {
   currUsers: JSX.Element[];
-  tabInfo: { url: string; favURL: string };
+  tabInfo: { url: string; favUrl: string };
 }
 
 /**
@@ -26,7 +26,7 @@ class Room extends Component<{}, AppState> {
     super(props);
     this.state = {
       currUsers: [],
-      tabInfo: { url: "", favURL: "" },
+      tabInfo: { url: "", favUrl: "" },
     };
     this.send_interval = null;
   }
@@ -46,22 +46,21 @@ class Room extends Component<{}, AppState> {
       let domain = "";
       let favurl = "";
 
-      if (response == null || response.url.toString() === "") {
+      if (response == null || response.url.toString() === "" || response.url.toString() == null) {
         domain = "chrome";
       } else {
-        console.log(response.url.toString());
-        domain = new URL(response.url.toString()).hostname;
+        domain = new URL(response.url.toString()).hostname.replace("www.", "");
       }
 
       // Get the favicon url, use chrome default if undefined
-      if (response == null || response.favURL === undefined) {
-        favurl = "chrome://favicon/";
+      if (response == null || response.favURL == null || response.favURL === undefined) {
+        favurl = "https://www.google.com/favicon.ico";
       } else {
         favurl = response.favURL;
       }
 
       this.setState({
-        tabInfo: { url: domain, favURL: favurl },
+        tabInfo: { url: domain, favUrl: favurl },
       });
     });
   };
@@ -93,7 +92,7 @@ class Room extends Component<{}, AppState> {
               // Create User components for each user in the room
               userData.push(
                 <User
-                  name={user.name}
+                  name={user.alias}
                   avatar={avatar.avatar}
                   user_name={user.alias}
                   currTab={user.current_tab}
