@@ -3,7 +3,7 @@ import {Avatar, Tooltip, Card} from 'antd';
 import { UserOutlined } from '@ant-design/icons';
 import UserInfo from './UserInfo';
 
-interface RoomIconProps {
+interface UserProps {
     name: String,       // The name of this person in the room
     avatar: String,     // File name of this person's profile pic
     user_name: String,
@@ -11,14 +11,14 @@ interface RoomIconProps {
     
 }
 
-interface RoomIconState {
+interface UserState {
     flash: any,
 }
 
 /**
  * Represents an icon of a person in the current 'Room'
  */
-class RoomIcon extends Component<RoomIconProps, RoomIconState> {
+class User extends Component<UserProps, UserState> {
     fetch_interval: any;
     key_array: any;
     tabObj: any;
@@ -38,7 +38,7 @@ class RoomIcon extends Component<RoomIconProps, RoomIconState> {
     constructor(props: any) {
         super(props);
         this.state = {
-            flash: RoomIcon.flash_off_style,
+            flash: User.flash_off_style,
         };
         this.fetch_interval = null;
         this.key_array = [];
@@ -62,7 +62,7 @@ class RoomIcon extends Component<RoomIconProps, RoomIconState> {
                 this.executeBlinkSchedule(this.key_array);
             });
             
-        }, RoomIcon.FETCH_TIME);
+        }, User.FETCH_TIME);
     }
 
     componentWillUnmount() {
@@ -76,8 +76,8 @@ class RoomIcon extends Component<RoomIconProps, RoomIconState> {
     }
 
     blink() {
-        this.setState({flash: RoomIcon.flash_on_style});
-        setTimeout(() => this.setState({flash: RoomIcon.flash_off_style}), RoomIcon.BLINK_TIME)
+        this.setState({flash: User.flash_on_style});
+        setTimeout(() => this.setState({flash: User.flash_off_style}), User.BLINK_TIME)
     }
 
     render() {
@@ -93,4 +93,4 @@ class RoomIcon extends Component<RoomIconProps, RoomIconState> {
     }
 }
 
-export default RoomIcon;
+export default User;

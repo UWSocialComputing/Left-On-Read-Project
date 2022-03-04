@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {Space, Card} from 'antd';
-import RoomIcon from './RoomIcon';
+import User from './User';
 import { KeyboardReader } from './getActivityUtil';
 
 //import {getKeyboardActivity} from './getActivityUtil.js';
@@ -22,7 +22,6 @@ class Room extends Component<{}, AppState> {
 
     // PUT time interval
     static PUT_TIME = 1000;
-    
     
     constructor(props: any) {
         super(props);
@@ -81,16 +80,16 @@ class Room extends Component<{}, AppState> {
         fetch(usersURL)
             .then(response => response.json())
             .then(data => {
-                let roomIconData = [];
+                let UserData = [];
             
                 // Loop through the server data and create avatar components for each
                 for (var i = 0; i < data.length; i++) {
                     const user = data[i];
-                    roomIconData.push(<RoomIcon name={user.alias} avatar={user.avatar} user_name={user.user_name} currTab={user.current_tab}/>);
+                    UserData.push(<User name={user.alias} avatar={user.avatar} user_name={user.user_name} currTab={user.current_tab}/>);
                 }
         
                 this.setState({
-                    currUsers: roomIconData
+                    currUsers: UserData
                 });
 
             });
