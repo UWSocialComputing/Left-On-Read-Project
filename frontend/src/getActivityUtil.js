@@ -18,9 +18,7 @@ export class KeyboardReader {
       return clicksArray;
     };
   }
-} 
-
-
+}
 
 // export class KeyboardReader {
 //   constructor(sample_interval) {
@@ -44,5 +42,4 @@ export class KeyboardReader {
 //       return clicksArray;
 //     };
 //   }
-// } 
-
+// }
