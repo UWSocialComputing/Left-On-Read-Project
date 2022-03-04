@@ -8,7 +8,7 @@ interface UserProps {
     avatar: String,     // File name of this person's profile pic
     user_name: String,
     currTab: String,
-    
+    keyboardActivity: any, 
 }
 
 interface UserState {
@@ -46,22 +46,9 @@ class User extends Component<UserProps, UserState> {
     }
 
     componentDidMount() {
-        const roomUrl = "https://twyd.herokuapp.com/room/";
-
         // Set to fetch for keyboard data every FETCH_TIME (1.2 seconds)
         this.fetch_interval = setInterval(() => {
-            fetch(roomUrl)
-            .then(response => response.json())
-            .then(data => {
-                var result = data.filter((obj: { user_name: String; }) => {return obj.user_name === this.props.user_name});
-
-                this.key_array = result[0].keyboard_activity;
-                this.tabObj = JSON.parse(result[0].current_tab);
-                
-                console.log(this.tabObj);
-                this.executeBlinkSchedule(this.key_array);
-            });
-            
+            this.executeBlinkSchedule(this.props.keyboardActivity);
         }, User.FETCH_TIME);
     }
 

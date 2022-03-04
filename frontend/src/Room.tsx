@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {Space, Card} from 'antd';
 import User from './User';
 import { KeyboardReader } from './getActivityUtil';
+import _ from 'lodash';
 
 //import {getKeyboardActivity} from './getActivityUtil.js';
 
@@ -75,24 +76,34 @@ class Room extends Component<{}, AppState> {
     // Fetches current users in the room from the server.
     getUsersInRoom = () => {
         const usersURL = "https://twyd.herokuapp.com/users/";
-        
+        const roomURL = "https://twyd.herokuapp.com/room/";
+
+        let roomData: any[] = [];
+        let avatarData: any[] = [];
+
         // Retrieve users in current room from the server
+        fetch(roomURL)
+            .then(response => response.json())
+            .then(data => {
+                for (var i = 0; i < data.length; i++) {
+                    roomData.push(data[i]);
+                }
+            }
+        );
+
         fetch(usersURL)
             .then(response => response.json())
             .then(data => {
-                let UserData = [];
-            
-                // Loop through the server data and create avatar components for each
                 for (var i = 0; i < data.length; i++) {
-                    const user = data[i];
-                    UserData.push(<User name={user.alias} avatar={user.avatar} user_name={user.user_name} currTab={user.current_tab}/>);
+                    avatarData.push(data[i]);
                 }
-        
-                this.setState({
-                    currUsers: UserData
-                });
+            }
+        );
+        console.log(roomData);
+        console.log(roomData[0]);
 
-            });
+        // combine data to make User components
+
     }
 
     sendUserData = () => {
