@@ -12,13 +12,14 @@ interface UserInfoProps {
  */
 class UserInfo extends Component<UserInfoProps, {}> {
   render() {
-    const url = JSON.parse(this.props.currTabInfo).url;
+    const tabInformation = JSON.parse(this.props.currTabInfo);
+    const url = tabInformation.url;
     let tabLabel = `On ${url}`;
-    let favicon = `https://www.${url}/favicon.ico`;
-
+    let favicon = tabInformation.favUrl;
+    
     if (url === undefined) {
       tabLabel = "Idle";
-      favicon = "";
+      favicon = "https://www.google.com/favicon.ico";
     }
 
     return (
