@@ -14,7 +14,7 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
 
     if (current_tab_object == null) {
       sendResponse({
-        url: "chrome",
+        url: "",
         favURL: "https://www.google.com/favicon.ico",
       });
       return true;
