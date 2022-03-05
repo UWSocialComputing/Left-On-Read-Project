@@ -46,17 +46,16 @@ class Room extends Component<{}, AppState> {
       let domain = "";
       let favurl = "";
 
-      if (response == null || response.url.toString() === "" || response.url.toString() == null) {
+      try { 
+        domain = domain = new URL(response.url.toString()).hostname.replace("www.", "");
+        favurl = response.favURL;
+      }
+      catch (e) {
         domain = "chrome";
-      } else {
-        domain = new URL(response.url.toString()).hostname.replace("www.", "");
       }
 
-      // Get the favicon url, use chrome default if undefined
-      if (response == null || response.favURL == null || response.favURL === undefined) {
+      if (favurl === "" || response.favURL == undefined) {
         favurl = "https://www.google.com/favicon.ico";
-      } else {
-        favurl = response.favURL;
       }
 
       this.setState({
