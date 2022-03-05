@@ -1,7 +1,6 @@
 import { Component } from "react";
 import { Space, Card } from "antd";
 import User from "./User";
-import { KeyboardReader } from "./getActivityUtil";
 
 interface AppState {
   currUsers: JSX.Element[];
@@ -33,36 +32,11 @@ class Room extends Component<{}, AppState> {
 
   componentDidMount() {
     this.getUsersInRoom();
-    this.sendUserData();
   }
 
   componentWillUnmount() {
     clearInterval(this.send_interval);
   }
-
-  getTab = () => {
-    chrome.runtime.sendMessage("tab", (response) => {
-      // Extract domain name from url
-      let domain = "";
-      let favurl = "";
-
-      try { 
-        domain = domain = new URL(response.url.toString()).hostname.replace("www.", "");
-        favurl = response.favURL;
-      }
-      catch (e) {
-        domain = "chrome";
-      }
-
-      if (favurl === "" || response.favURL == undefined) {
-        favurl = "https://www.google.com/favicon.ico";
-      }
-
-      this.setState({
-        tabInfo: { url: domain, favUrl: favurl },
-      });
-    });
-  };
 
   // Fetches current users in the room from the server.
   getUsersInRoom = () => {
@@ -105,39 +79,6 @@ class Room extends Component<{}, AppState> {
             });
           });
       });
-  };
-
-  sendUserData = () => {
-    const sendDataURL =
-      "https://twyd.herokuapp.com/status/" + Room.USER_NAME + "/";
-
-    // Sends PUT request about current user
-    // current tab + keyboard activity
-    const KR = new KeyboardReader(Room.PUT_TIME + 5); // Offset by 5 to send out right before sample actually resets
-
-    this.send_interval = setInterval(() => {
-      this.getTab();
-      let userData = {
-        // "{ url:" + tabInfo.url, favUrl: tabInfo.favUrl + "}"
-        current_tab: JSON.stringify(this.state.tabInfo),
-        keyboard_activity: "[" + KR.getArray().toString() + "]",
-      };
-
-      fetch(sendDataURL, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(userData),
-      })
-        .then((response) => response.json())
-        .then((data) => {
-          console.log("Success:", data);
-        })
-        .catch((error) => {
-          console.error("Error:", error);
-        });
-    }, Room.PUT_TIME);
   };
 
   render() {

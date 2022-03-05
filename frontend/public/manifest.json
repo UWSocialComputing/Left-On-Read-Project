@@ -12,8 +12,17 @@
     "48": "logo192.png",
     "128": "logo192.png"
   },
-  "permissions": ["tabs"],
+  "host_permissions": [
+    "*://twyd.herokuapp.com/"
+  ],
+  "permissions": ["tabs", "cookies"],
   "background": {
     "service_worker": "app/background.js"
-  }
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["app/keystrokeMessager.js"]
+    }
+  ]
 }
