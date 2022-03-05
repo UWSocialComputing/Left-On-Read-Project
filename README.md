@@ -40,7 +40,18 @@ Whenever you make changes to the frontend side of the project, you will need to 
 ## Setting up Django
 
 Make sure you've installed pip and pipenv.
-Initial backend setup:
+
+Backend server is hosted at twyd.herokuapp.com
+
+Current API endpoints:
+
+GET `/users`
+
+GET `/room`
+
+PUT `/status/<user_name>`
+
+If you'd like to host the backend locally, follow these instructions:
 ```
 # navigate to repo_root/backend
 cd backend
@@ -70,13 +81,6 @@ python3 manage.py runserver
 
 To populate the server, login to `localhost:8000/admin/`.
 
-Current APIs:
-
-GET `/users`
-
-GET `/room`
-
-PUT `/status/<user_name>`
 
 ## Running prettier
 
