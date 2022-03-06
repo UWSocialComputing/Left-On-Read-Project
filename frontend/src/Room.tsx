@@ -18,8 +18,9 @@ class Room extends Component<{}, AppState> {
   static USER_NAME = "LOR_USER";
   static ALIAS = "Lora Reed";
 
-  // PUT time interval
+  // PUT/FETCH time interval
   static PUT_TIME = 1000;
+  static FETCH_TIME = 1200;
 
   constructor(props: any) {
     super(props);
@@ -46,7 +47,8 @@ class Room extends Component<{}, AppState> {
     let roomData: Array<any>;
 
     // Retrieve users in current room from the server
-    fetch(roomURL)
+    this.send_interval = setInterval(() =>
+      fetch(roomURL)
       .then((response) => response.json())
       .then((data) => {
         roomData = data;
@@ -67,7 +69,7 @@ class Room extends Component<{}, AppState> {
               });
               
               let avatar = currData[0].avatar;
-
+              console.log(user.alias + " " + user.keyboard_activity);
               // Create User components for each user in the room
               userData.push(
                 <User
@@ -84,7 +86,9 @@ class Room extends Component<{}, AppState> {
               currUsers: userData,
             });
           });
-      });
+      }) , Room.FETCH_TIME);
+
+    
   };
 
   render() {
