@@ -58,15 +58,21 @@ class Room extends Component<{}, AppState> {
           .then((avatarData) => {
             let userData = [];
 
-            for (var i = 0; i < avatarData.length; i++) {
+            for (var i = 0; i < roomData.length; i++) {
               let user = roomData[i];
-              let avatar = avatarData[i];
+
+              // Match the avatar with the correct user
+              let currData = avatarData.filter((obj: { user_name: any }) => {
+                return user.user_name === obj.user_name;
+              });
+              
+              let avatar = currData[0].avatar;
 
               // Create User components for each user in the room
               userData.push(
                 <User
                   name={user.alias}
-                  avatar={avatar.avatar}
+                  avatar={avatar}
                   user_name={user.alias}
                   currTab={user.current_tab}
                   keyboardActivity={user.keyboard_activity}

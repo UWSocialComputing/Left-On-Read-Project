@@ -12,9 +12,7 @@
     "48": "logo192.png",
     "128": "logo192.png"
   },
-  "host_permissions": [
-    "*://twyd.herokuapp.com/"
-  ],
+  "host_permissions": ["*://twyd.herokuapp.com/"],
   "permissions": ["tabs", "cookies"],
   "background": {
     "service_worker": "app/background.js"

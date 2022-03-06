@@ -1,5 +1,5 @@
 function sendKeydown() {
-    chrome.runtime.sendMessage("keydown")
+  chrome.runtime.sendMessage("keydown");
 }
 
-document.addEventListener('keydown', sendKeydown)
+document.addEventListener("keydown", sendKeydown);

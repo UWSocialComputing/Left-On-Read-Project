@@ -10,18 +10,17 @@ class KeystrokeLogger {
     this.reset = function () {
       clicksArray = [];
       sampleStartTime = Date.now(); // reset the staritng time
-    }
+    };
 
     this.getArray = function () {
       return clicksArray;
     };
 
     this.toString = function () {
-      return '[' + this.getArray().toString() + ']'
-    }
+      return "[" + this.getArray().toString() + "]";
+    };
   }
 }
-
 
 let currentTabData = createTabDataObject(null);
 const PUT_TIME = 1000;
@@ -29,27 +28,24 @@ const USER_NAME = "LOR_USER";
 const sendDataURL = "https://twyd.herokuapp.com/status/" + USER_NAME + "/";
 const KR = new KeystrokeLogger();
 
-
 // tab grabber
 async function queryCurrentTabData() {
   let queryOptions = { active: true, currentWindow: true };
   let [tab] = await chrome.tabs.query(queryOptions);
-  currentTabData = createTabDataObject(tab)
+  currentTabData = createTabDataObject(tab);
 }
 
 chrome.tabs.onActivated.addListener(queryCurrentTabData);
 
 function createTabDataObject(tab) {
-
   let domain = "";
   let favIconUrl = "";
 
-  console.dir(tab)
-  try { 
+  console.dir(tab);
+  try {
     domain = domain = new URL(tab.url.toString()).hostname.replace("www.", "");
     favIconUrl = tab.favIconUrl;
-  }
-  catch (e) {
+  } catch (e) {
     domain = "chrome";
   }
 
@@ -60,16 +56,15 @@ function createTabDataObject(tab) {
   return { url: domain, favUrl: favIconUrl };
 }
 
-
 // browser message listener
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
   if (request === "keydown") {
     KR.logKeystroke();
   } else {
-    console.log('BRUH');
+    console.log("BRUH");
     console.log(request);
   }
-  
+
   return true;
 });
 
@@ -80,13 +75,13 @@ setInterval(() => {
   };
 
   // reset the logger after storing data in userData
-  KR.reset()
+  KR.reset();
 
   fetch(sendDataURL, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
-      "X-CSRFToken": ""
+      "X-CSRFToken": "",
     },
     body: JSON.stringify(userData),
   })
@@ -97,4 +92,4 @@ setInterval(() => {
     .catch((error) => {
       console.error("Error:", error);
     });
-}, PUT_TIME)
+}, PUT_TIME);

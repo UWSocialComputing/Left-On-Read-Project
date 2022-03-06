@@ -16,7 +16,7 @@ class UserInfo extends Component<UserInfoProps, {}> {
     const url = tabInformation.url;
     let tabLabel = `On ${url}`;
     let favicon = tabInformation.favUrl;
-    
+
     if (url === undefined) {
       tabLabel = "Idle";
       favicon = "https://www.google.com/favicon.ico";
