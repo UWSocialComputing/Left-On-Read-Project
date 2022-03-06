@@ -37,6 +37,8 @@ On Google Chrome, go to the URL [chrome://extensions/](chrome://extensions/) to 
 
 Whenever you make changes to the frontend side of the project, you will need to rebuild the project via `npm run build` after making changes and repeat the steps above to load up the Chrome extension.
 
+(also make sure to do ```npm install --save @types/chrome```).
+
 ## Server
 
 Make sure you've installed pip and pipenv.

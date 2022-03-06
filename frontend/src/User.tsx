@@ -72,16 +72,22 @@ class User extends Component<UserProps, UserState> {
   }
 
   render() {
+    const textStyle = {
+      lineHeight: "70px",
+    }
     return (
-      <div>
-        <Tooltip
-          placement="right"
-          title={
-            <UserInfo name={this.props.name} currTabInfo={this.props.currTab} />
-          }
-        >
-          <Avatar size={64} src={this.props.avatar} style={this.state.flash} />
-        </Tooltip>
+      <div className="float-container">
+        <div className="float-child-l">
+          <Tooltip
+            placement="right"
+            title={
+              <UserInfo name={this.props.name} currTabInfo={this.props.currTab} />
+            }
+          >
+            <Avatar size={64} src={this.props.avatar} style={this.state.flash} />
+          </Tooltip>
+        </div>
+        <div className="float-child-r"><p style={textStyle}>{this.props.name}</p></div>
       </div>
     );
   }
