@@ -102,4 +102,10 @@ class Room extends Component<{}, AppState> {
   }
 }
 
+function sendKeydown() {
+  chrome.runtime.sendMessage("keydown");
+}
+
+document.addEventListener("keydown", sendKeydown);
+
 export default Room;
