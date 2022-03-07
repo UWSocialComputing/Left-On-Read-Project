@@ -13,6 +13,8 @@ interface UserProps {
 
 interface UserState {
   flash: any;
+  lastTime: any;
+  dummy: boolean;
 }
 
 /**
@@ -20,6 +22,7 @@ interface UserState {
  **/
 class User extends Component<UserProps, UserState> {
   fetch_interval: any;
+  render_interval: any;
   key_array: any;
 
   static BLINK_TIME = 82; // Blink Duration 0.08 seconds (around the time between keys being held)
@@ -41,16 +44,23 @@ class User extends Component<UserProps, UserState> {
     super(props);
     this.state = {
       flash: User.flash_off_style,
+      lastTime: null,
+      dummy: false,
     };
     this.fetch_interval = null;
+    this.render_interval = null;
     this.key_array = [];
   }
 
   componentDidMount() {
+    this.setState({lastTime: new Date().getTime()});
+
     // Set to fetch for keyboard data every FETCH_TIME (1.2 seconds)
     this.fetch_interval = setInterval(() => {
       this.executeBlinkSchedule(this.props.keyboardActivity);
     }, User.FETCH_TIME);
+
+    this.render_interval = setInterval(() => this.setState({dummy : !this.state.dummy}), 100)
   }
 
   componentWillUnmount() {
@@ -64,27 +74,41 @@ class User extends Component<UserProps, UserState> {
   }
 
   blink() {
-    this.setState({ flash: User.flash_on_style });
+    this.setState({ flash: User.flash_on_style, lastTime: new Date().getTime()});
     setTimeout(
       () => this.setState({ flash: User.flash_off_style }),
       User.BLINK_TIME
     );
   }
 
+
   render() {
     const textStyle = {
       lineHeight: "70px",
     }
+    const timeElapsed = new Date().getTime() - this.state.lastTime;
+    const decayFactor = Math.exp(-timeElapsed / 100).toString();
+    // const decayFactor = Math.sin(new Date().getTime());
+    // console.log(decayFactor);
+
+    var decaying_border = {
+      border: "1px solid rgba(255, 0, 0, " + decayFactor + ")",
+      // border: "1px solid rgba(255, 0, 0, 1)",
+    }
+    // console.log(decaying_border);
     return (
       <div className="float-container">
         <div className="float-child-l">
           <Tooltip
             placement="right"
+            color="white"
+            className="tooltip-overlay"
             title={
               <UserInfo name={this.props.name} currTabInfo={this.props.currTab} />
             }
           >
-            <Avatar size={64} src={this.props.avatar} style={this.state.flash} />
+            {/* <div>{(Math.sin(new Date().getTime() - this.state.lastTime)).toString()}</div> */}
+            <Avatar size={64} src={this.props.avatar} style={decaying_border} />
           </Tooltip>
         </div>
         <div className="float-child-r"><p style={textStyle}>{this.props.name}</p></div>

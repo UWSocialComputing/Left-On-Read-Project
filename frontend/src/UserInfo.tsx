@@ -17,13 +17,25 @@ class UserInfo extends Component<UserInfoProps, {}> {
     let tabLabel = `On ${url}`;
     let favicon = tabInformation.favUrl;
 
+    const titleStyle = {
+      paddingTop: "0px",
+      padding: "0px"
+    }
+
+    const cardStyle = {
+      leftPadding: "20px",
+      padding: "0px",
+      height: "auto",
+      minHeight: "0px",
+    }
+
     if (url === undefined) {
       tabLabel = "Idle";
       favicon = "https://www.google.com/favicon.ico";
     }
 
     return (
-      <Card title={this.props.name} style={{ width: 200 }}>
+      <Card size="small" title={this.props.name} style={{ width: 200 }} headStyle={titleStyle} bodyStyle={cardStyle}>
         <Space align="baseline">
           <Image width={16} preview={false} src={favicon} />
           <p>{tabLabel}</p>
