@@ -17,7 +17,7 @@ In the `frontend` directory, be sure to first run
 ```
 npm install
 ```
-to install everything and also get the required dependencies this project uses onto your local device.
+to install everything and also get the required dependencies this project uses onto your local device. You may also need to run ```npm install --save @types/chrome``` to prepare the project to be a Chrome extension.
 
 After, run the following:
 ```
@@ -36,8 +36,6 @@ and go to `http://localhost:3000`in your web browser of choice to interact with 
 On Google Chrome, go to the URL [chrome://extensions/](chrome://extensions/) to access Chrome Extensions and turn on Developer Mode on the top right. Then, click `Load unpacked` and select this project's `/build` folder which should be in base the `/frontend` folder. You should see the extension pop up in your extensions bar on the top right of Google Chrome.
 
 Whenever you make changes to the frontend side of the project, you will need to rebuild the project via `npm run build` after making changes and repeat the steps above to load up the Chrome extension.
-
-(also make sure to do ```npm install --save @types/chrome```).
 
 ## Server
 
