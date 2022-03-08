@@ -87,7 +87,7 @@ class User extends Component<UserProps, UserState> {
       lineHeight: "70px",
     }
     const timeElapsed = new Date().getTime() - this.state.lastTime;
-    const decayFactor = Math.exp(-0.3 -timeElapsed / 400).toString();
+    const decayFactor = Math.exp(-0.3 -timeElapsed / 100).toString();
     // const decayFactor = Math.sin(new Date().getTime());
     // console.log(decayFactor);
 

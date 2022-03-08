@@ -1,5 +1,5 @@
 {
-    "name": "Chrome React SEO Extension",
+    "name": "Twyd",
     "description": "The power of React and TypeScript for building interactive Chrome extensions",
     "version": "1.0",
     "manifest_version": 3,
@@ -8,9 +8,9 @@
         "default_title": "Open the popup"
     },
     "icons": {
-        "16": "logo192.png",
-        "48": "logo192.png",
-        "128": "logo192.png"
+        "16": "twyd.png",
+        "48": "twyd.png",
+        "128": "twyd.png"
     },
     "host_permissions": ["*://twyd.herokuapp.com/"],
     "permissions": ["tabs", "cookies"],
