@@ -51,7 +51,7 @@ class Room extends Component<{}, AppState> {
       fetch(roomURL)
       .then((response) => response.json())
       .then((data) => {
-        roomData = data;
+        roomData = data.sort((a: { user_name: string; }, b: { user_name: any; }) => a.user_name.localeCompare(b.user_name));
       })
       .then(() => {
         // Do a second fetch to get the users' avatars
